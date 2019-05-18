@@ -6,7 +6,7 @@ scriptDir="/opt/scripts/plex/dvr_to_arr"
 ombiUrl="127.0.0.1:3579"
 #ombi api key
 ombiApiKey="08d108d108d108d108d108d108d108d1"
-#Set the user that should show as requesting the movie/show
+#Set the ombi username that should show as requesting the movie/show. Must be a valid ombi username.
 ombiUser="OmbiUser"
 
 python $scriptDir/xml_to_json.py
