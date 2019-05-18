@@ -19,4 +19,4 @@ dvr_to_arr.sh:
 * scriptDir - Directory that scripts reside.
 * ombiUrl - Set domain or IP to your ombi instance including port. If using reverse proxy, do not use a trailing slash. Ensure you specify http/s.
 * ombiApiKey - ombi api key
-* ombiUser - Set the user that should show as requesting the movie/show
+* ombiUser - Set the ombi username that should show as requesting the movie/show. Must be a valid ombi username.
