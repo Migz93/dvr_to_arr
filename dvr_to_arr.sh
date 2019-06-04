@@ -6,8 +6,8 @@ scriptDir="/opt/scripts/plex/dvr_to_arr"
 ombiUrl="127.0.0.1:3579"
 #ombi api key
 ombiApiKey="08d108d108d108d108d108d108d108d1"
-#Set the ombi username that should show as requesting the movie/show. Must be a valid ombi username.
-ombiUser="OmbiUser"
+#Set the ombi username that should show as requesting the movie/show. Does not need to be a valid Ombi username.
+ombiUser="DVR Request"
 
 python $scriptDir/xml_to_json.py
 
@@ -33,7 +33,7 @@ do
                 curl -s -X GET "$ombiUrl/api/v1/Search/movie/$movieTitle" -H  "accept: application/json" -H  "ApiKey: $ombiApiKey" -o "$scriptDir/movieTitle.json"
                 movieTitleID=$(cat $scriptDir/movieTitle.json | jq -r '.[0].id')
                 echo "Adding $movieTitle with TMDB ID $movieTitleID to Ombi."
-                curl -X POST "$ombiUrl/api/v1/Request/movie" -H  "accept: application/json" -H  "ApiKey: $ombiApiKey" -H "UserName: $ombiUser"  -H  "Content-Type: application/json-patch+json" -d "{  \"theMovieDbId\": $movieTitleID}"
+                curl -X POST "$ombiUrl/api/v1/Request/movie" -H  "accept: application/json" -H  "ApiKey: $ombiApiKey" -H "ApiAlias: $ombiUser"  -H  "Content-Type: application/json-patch+json" -d "{  \"theMovieDbId\": $movieTitleID}"
                 rm -rf $scriptDir/movieTitle.json
 	elif [ "$subscriptionType" = "show" ];
 	then
@@ -44,7 +44,7 @@ do
 		curl -s -X GET "$ombiUrl/api/v1/Search/tv/$tvTitle" -H  "accept: application/json" -H  "ApiKey: $ombiApiKey" -o "$scriptDir/tvTitle.json"
 		tvTitleID=$(cat $scriptDir/tvTitle.json | jq -r '.[0].id')
 		echo "Adding $tvTitle with TVDB ID $tvTitleID to Ombi."
-		curl -X POST "$ombiUrl/api/v1/Request/tv" -H  "accept: application/json" -H  "ApiKey: $ombiApiKey" -H "UserName: $ombiUser" -H  "Content-Type: application/json-patch+json" -d "{  \"requestAll\": true,  \"tvDbId\": $tvTitleID}"
+		curl -X POST "$ombiUrl/api/v1/Request/tv" -H  "accept: application/json" -H  "ApiKey: $ombiApiKey" -H "ApiAlias: $ombiUser" -H  "Content-Type: application/json-patch+json" -d "{  \"requestAll\": true,  \"tvDbId\": $tvTitleID}"
 		rm -rf $scriptDir/tvTitle.json
 	fi
 done
